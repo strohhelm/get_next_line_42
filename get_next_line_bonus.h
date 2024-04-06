@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 10:07:52 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/04/05 19:51:58 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/04/06 17:42:21 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_BONUS_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 5
+#  define BUFFER_SIZE 1
 # endif
 
 # include <stdio.h>
@@ -32,7 +32,7 @@ char	*ft_strjoin(char *s1, char const *s2);
 size_t	ft_strlen(const char *s);
 void	*ft_memcpy(void *dst, const void *src, size_t n);
 void	ft_rearange_buffer(char *buffer);
-char	*ft_cutstr(char *nextline);
+char	*ft_cutstr(char **nextline);
 void	ft_bzero(void *s, size_t n);
 
 #endif

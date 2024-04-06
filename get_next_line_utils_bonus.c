@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 19:53:09 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/04/06 15:55:21 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/04/06 17:16:25 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,17 +82,17 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-void	ft_bzero(void *s, size_t n)
-{
-	char	*str;
+// void	ft_bzero(void *s, size_t n)
+// {
+// 	char	*str;
 
-	str = (char *)s;
-	while (n != 0)
-	{
-		*str = '\0';
-		--n;
-		if (n == 0)
-			break ;
-		++str;
-	}
-}
+// 	str = (char *)s;
+// 	while (n != 0)
+// 	{
+// 		*str = '\0';
+// 		--n;
+// 		if (n == 0)
+// 			break ;
+// 		++str;
+// 	}
+// }

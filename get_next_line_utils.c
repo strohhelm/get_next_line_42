@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 19:53:09 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/04/03 17:22:39 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/04/06 16:01:07 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	*ft_memcpy(void *dst, const void *src, size_t n)
 	source = (const char *)src;
 	destin = (char *)dst;
 	i = 0;
-	while (i < n)
+	while (i < n && src)
 	{
 		destin[i] = source[i];
 		i++;
@@ -74,8 +74,11 @@ size_t	ft_strlen(const char *s)
 	int		i;
 
 	i = 0;
-	while (s[i])
-		i++;
+	if (s)
+	{
+		while (s[i])
+			i++;
+	}
 	return (i);
 }
 

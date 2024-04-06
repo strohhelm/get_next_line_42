@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 10:07:56 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/04/06 15:29:48 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/04/06 17:50:11 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,47 +16,50 @@ char	*read_next_line(int fd, char **buffer)
 {
 	ssize_t	btsread;
 	char	*nextbuild;
+	char	tmp[BUFFER_SIZE + 1];
 
 	btsread = 0;
-	nextbuild = (char *)malloc(ft_strlen(*buffer) + 1);
+	nextbuild = (char *)malloc(BUFFER_SIZE + 1);
 	if (!nextbuild)
-		return (NULL);
-	ft_memcpy(nextbuild, *buffer, ft_strlen(*buffer) + 1);
+		return (free(*buffer), NULL);
+	if (!*buffer)
+		nextbuild[0] = '\0';
+	else
+		ft_memcpy(nextbuild, *buffer, ft_strlen(*buffer) + 1);
 	while (!ft_strchr(nextbuild, '\n'))
 	{
-		btsread = read(fd, *buffer, BUFFER_SIZE);
+		btsread = read(fd, tmp, BUFFER_SIZE);
 		if (btsread == 0)
-		{
-			free(*buffer);
-			return (*buffer = NULL, nextbuild);
-		}
+			return (free(*buffer), nextbuild);
 		else
-			*buffer[btsread] = '\0';
-		nextbuild = ft_strjoin(nextbuild, *buffer);
+			tmp[btsread] = '\0';
+		nextbuild = ft_strjoin(nextbuild, tmp);
 		if (!nextbuild)
-			return (NULL);
+			return (free(*buffer), NULL);
 	}
-	return (nextbuild);
+	return (free(*buffer), nextbuild);
 }
 
-char	*ft_cutstr(char *nextline)
+char	*ft_cutstr(char **buffer)
 {
 	int		i;
 	char	*cutstring;
 
-	cutstring = ft_strchr(nextline, '\n');
+	cutstring = ft_strchr(*buffer, '\n');
 	if (!cutstring)
 	{
-		i = ft_strlen(nextline);
+		i = ft_strlen(*buffer);
 		i--;
 	}
 	else
-		i = cutstring - nextline;
+		i = cutstring - (*buffer);
 	cutstring = (char *)malloc((i + 2) * sizeof(char));
 	if (!cutstring)
-		return (free(nextline), NULL);
-	ft_memcpy(cutstring, nextline, i + 1);
-	free(nextline);
+	{
+		free(*buffer);
+		return (*buffer = NULL, NULL);
+	}
+	ft_memcpy(cutstring, *buffer, i + 1);
 	cutstring[i + 1] = '\0';
 	return (cutstring);
 }
@@ -66,15 +69,19 @@ void	ft_rearange_buffer(char *buffer)
 	int	i;
 
 	i = 0;
-	while (buffer[i] != '\n')
+	if (buffer)
 	{
-		if (buffer[i++] == '\0')
+		while (buffer[i] != '\n')
 		{
-			buffer[0] = '\0';
-			return ;
+			if (buffer[i++] == '\0')
+			{
+				buffer[0] = '\0';
+				return ;
+			}
 		}
+		ft_memcpy(buffer, &buffer[i + 1], ft_strlen(buffer) - i);
 	}
-	ft_memcpy(buffer, &buffer[i + 1], BUFFER_SIZE - i);
+	return ;
 }
 
 char	*get_next_line(int fd)
@@ -84,18 +91,19 @@ char	*get_next_line(int fd)
 
 	if ((fd < 0 || fd > OPEN_MAX) || (read(fd, buffer[fd], 0) < 0))
 	{
-		ft_bzero(buffer[fd], BUFFER_SIZE + 1);
+		if (buffer[fd])
+			buffer[fd][0] = '\0';
 		return (NULL);
 	}
-	buffer[fd] = (char *)malloc(BUFFER_SIZE + 1);
-	if (!buffer[fd])
+	buffer[fd] = read_next_line(fd, &buffer[fd]);
+	if (buffer[fd] == NULL)
 		return (NULL);
-	nextline = read_next_line(fd, &buffer[fd]);
-	if (nextline == NULL)
-		return (NULL);
-	if (*nextline == '\0')
-		return (free(nextline), NULL);
-	nextline = ft_cutstr(nextline);
+	if (*buffer[fd] == '\0')
+	{
+		free(buffer[fd]);
+		return (buffer[fd] = NULL, NULL);
+	}
+	nextline = ft_cutstr(&buffer[fd]);
 	ft_rearange_buffer(buffer[fd]);
 	return (nextline);
 }
@@ -107,12 +115,12 @@ char	*get_next_line(int fd)
 // 	int		fd[4];
 // 	char	*str;
 
-// 	i = 0;
+// 	i = 1;
 // 	x = 0;
 // 	fd[0] = open("empty", O_RDONLY);
-// 	// fd[1] = open("test2.txt", O_RDONLY);
-// 	// fd[2] = open("test3.txt", O_RDONLY);
-// 	// fd[3] = open("test4.txt", O_RDONLY);
+// 	// fd[1] = open("42_with_nl", O_RDONLY);
+// 	// fd[2] = open("alternate_line_nl_no_nl", O_RDONLY);
+// 	// fd[3] = open("43_with_nl", O_RDONLY);
 // 	while (i-- >= 0)
 // 	{
 // 		// printf("test %d$\n", (x + 1));
