@@ -6,7 +6,7 @@
 /*   By: pstrohal <pstrohal@student.42heilbronn.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 10:07:56 by pstrohal          #+#    #+#             */
-/*   Updated: 2024/04/03 17:29:41 by pstrohal         ###   ########.fr       */
+/*   Updated: 2024/11/15 14:25:35 by pstrohal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,21 +94,22 @@ char	*get_next_line(int fd)
 	return (nextline);
 }
 
-// int	main(void)
-// {
-// 	int		i;
-// 	int		x;
-// 	int		fd;
-// 	char	*str;
+int	main(void)
+{
+	int		i;
+	int		x;
+	int		fd;
+	char	*str;
 
-// 	i = 0;
-// 	x = 5;
-// 	fd = open("test.txt", O_RDONLY);
-// 	while (i++ <= x)
-// 	{
-// 		str = get_next_line(fd);
-// 		printf("%s", str);
-// 	}
-// 	close (fd);
-// 	free(str);
-// }
+	i = 0;
+	x = 5;
+	fd = open("test.txt", O_RDONLY);
+	while (i++ <= x)
+	{
+		str = get_next_line(fd);
+		printf("%s", str);
+		free(str);
+	}
+	close (fd);
+}
+
