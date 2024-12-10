@@ -9,6 +9,9 @@
   then it duplicates the part if it until the newline character and rearranges the buffer so that the first character after the newline is now the first in the buffer.
   It adds a newline to the duplicated string and returns that one. If there is no newline in the file it returns the string without one. If the file is empty or has been read fully or any error occurred, it returns NULL.
 
+## How i use it in my projects
+   I added a Makefile to this project so it can be compiled easily and used as an archive file to be linked into other projects.
+
 ## Things that were interesting to me 🧙‍♂️
 This was the first time i worked with filedescriptors actively which was a fairly new concept to me. Also it introduced me to static variables and their use in a program,
 which was also quite interesting since i had learned about static functions already in the libft project.
